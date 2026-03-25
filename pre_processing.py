@@ -30,6 +30,12 @@ class PreProcessing:
         self.df[['Age']] = scaler.fit_transform(self.df[['Age']])
         return self.df
 
+    # Deixando aqui só pra gente testar a diferença entre uma escala minmax e outra normalizada para tempo
+    def normalize_experience(self):
+        scaler = StandardScaler()
+        self.df[['ExperienceInCurrentDomain']] = scaler.fit_transform(self.df[['ExperienceInCurrentDomain']])
+        return self.df
+
     def one_hot_encode(self):
         columns_to_encode = ['City', 'Gender', 'EverBenched']
         self.df = pd.get_dummies(self.df, columns=columns_to_encode, drop_first=True, dtype=int)
