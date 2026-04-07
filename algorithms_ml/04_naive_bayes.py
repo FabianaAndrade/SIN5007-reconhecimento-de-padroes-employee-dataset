@@ -31,9 +31,9 @@ class NaiveBayes:
 if __name__ == "__main__":
 
     csvs = {
-        "full": "data/Employee_processed.csv",
-        "pca": "data/Employee_pca.csv", #dataset com pca aplicado
-        "fs": "data/Employee_fs.csv" #dataset com feature selection aplicado #TODO revisar esse metodo
+        "full": "../data/Employee_processed.csv",
+        "pca": "../data/Employee_pca.csv", #dataset com pca aplicado
+        "fs": "../data/Employee_fs.csv" #dataset com feature selection aplicado #TODO revisar esse metodo
     }
     
     for key, csv_full_ds in csvs.items():
