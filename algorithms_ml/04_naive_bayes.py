@@ -5,11 +5,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 class NaiveBayes:
-    def __init__(self, csv_path):
+    def __init__(self, csv_path, model=GaussianNB()):
         self.csv_path = csv_path
         self.df = pd.read_csv(csv_path)
         self.X = self.df.drop(columns=['LeaveOrNot'])
         self.y = self.df['LeaveOrNot']
+        self.model = model
 
     def train_test_split(self, test_size=0.2, random_state=42):
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
@@ -19,7 +20,7 @@ class NaiveBayes:
     def run_train(self):
         self.train_test_split()
     
-        model = GaussianNB()
+        model = self.model
         model.fit(self.X_train, self.y_train)
         y_pred = model.predict(self.X_test)
 
