@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import GaussianNB, CategoricalNB
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -41,4 +41,15 @@ if __name__ == "__main__":
         print(f"Running Naive Bayes on '{key}' dataset:")
 
         analyzer = NaiveBayes(csv_full_ds)
+        analyzer.run_train()
+
+    # Para a próxima parte não reclamar
+    del(csvs['pca'])
+
+    print("\n--*  Running special test for CategoricalNB  *--\n")
+    
+    for key, csv_full_ds in csvs.items():
+        print(f"Running CategoricalNB on '{key}' dataset:")
+
+        analyzer = NaiveBayes(csv_full_ds, model=CategoricalNB())
         analyzer.run_train()
