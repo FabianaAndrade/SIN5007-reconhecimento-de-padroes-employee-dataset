@@ -12,11 +12,20 @@ import os
 class GridExperiment:
 
     def __init__(self, grid):
-
+        
         self.grid = grid
 
-    def run(self, features, target):
+    def grid_run(self, features, target):
         grid.fit(features, target)
+
+    def cv_run(self, X, y, cross_validation_set, scoring_metrics):
+        return cross_validate(\
+                              self.grid, \
+                              X, y, \
+                              cv=cross_validation_set, \
+                              scoring=scoring_metrics, \
+                              verbose=3 \
+                              )
         
     def produceGraphics(self):
         pass #vamos acrescentar depois o método para gerar os gráficos de comparação
@@ -48,17 +57,37 @@ if __name__ == "__main__":
     parameter_grid = [
         {"scaler": [MinMaxScaler()],
          "dimension_reducer": [None, PCA(), SelectKBest(f_classif, k=5)],
-         #"dimension_reducer__n_components": [None, 'mle'],
+         #"dimension_reducer__n_components": [None, 'mle'], # <- Removido por dar problema nos outros redutores de dimensão
          "classifier": [GaussianNB()],
         }
     ]
 
-    k_folds = StratifiedKFold(n_splits=5, shuffle=True)
-    
-    grid = GridSearchCV(pipe, parameter_grid, cv=k_folds, verbose=3, scoring='f1')
+    # Eu não sei se temos nomes muito melhores que esses
+    # Mas, comparando com a aula, até que faz sentido
+    cross_validator_externo = StratifiedKFold(n_splits=10, shuffle=True)
 
+    cross_validator_interno = StratifiedKFold(n_splits=5, shuffle=True)
+    
+    grid = GridSearchCV( \
+                        pipe, \
+                        parameter_grid, \
+                        cv=cross_validator_interno, \
+                        verbose=3, \
+                        scoring='f1', \
+                        refit='f1'
+                        )
+
+    scoring_metrics = {
+        'f1': 'f1',
+        'accuracy': 'accuracy',
+        'recall': 'recall',
+        'precision': 'precision'
+    }
+    
     experiment = GridExperiment(grid)
 
-    experiment.run(X, y)
+    #experiment.grid_run(X, y)
+
+    experiment.cv_run(X, y, cross_validator_externo, scoring_metrics)
     
     experiment.produceGraphics()
