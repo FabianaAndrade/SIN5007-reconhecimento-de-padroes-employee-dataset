@@ -3,6 +3,7 @@ from sklearn.preprocessing import MinMaxScaler # Scalers da aula 04
 from sklearn.decomposition import PCA
 from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import GridSearchCV, StratifiedKFold, cross_validate
+from sklearn.feature_selection import SelectKBest, f_classif
 import pandas as pd
 import os
 
@@ -46,8 +47,8 @@ if __name__ == "__main__":
 
     parameter_grid = [
         {"scaler": [MinMaxScaler()],
-         "dimension_reducer": [PCA()],
-         "dimension_reducer__n_components": [None, 'mle'],
+         "dimension_reducer": [None, PCA(), SelectKBest(f_classif, k=5)],
+         #"dimension_reducer__n_components": [None, 'mle'],
          "classifier": [GaussianNB()],
         }
     ]
