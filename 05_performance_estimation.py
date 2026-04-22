@@ -2,7 +2,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler # Scalers da aula 04
 from sklearn.decomposition import PCA
 from sklearn.naive_bayes import GaussianNB
-from sklearn.model_selection import GridSearchCV, KFold
+from sklearn.model_selection import GridSearchCV, StratifiedKFold, cross_validate
 import pandas as pd
 import os
 
@@ -52,7 +52,7 @@ if __name__ == "__main__":
         }
     ]
 
-    k_folds = KFold(n_splits=5, shuffle=True)
+    k_folds = StratifiedKFold(n_splits=5, shuffle=True)
     
     grid = GridSearchCV(pipe, parameter_grid, cv=k_folds, verbose=3, scoring='f1')
 
