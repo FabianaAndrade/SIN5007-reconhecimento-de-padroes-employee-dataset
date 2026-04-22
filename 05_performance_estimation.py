@@ -29,7 +29,7 @@ class GridExperiment:
                               )
         
     def produceGraphics(self):
-        pass #vamos acrescentar depois o método para gerar os gráficos de comparação
+        pass #Complexo ao usar matplotlib. Vou largar aqui para usar o verbose e compilar no sheets...
     
 
 if __name__ == "__main__":
@@ -68,15 +68,6 @@ if __name__ == "__main__":
     cross_validator_externo = StratifiedKFold(n_splits=10, shuffle=True)
 
     cross_validator_interno = StratifiedKFold(n_splits=5, shuffle=True)
-    
-    grid = GridSearchCV( \
-                        pipe, \
-                        parameter_grid, \
-                        cv=cross_validator_interno, \
-                        verbose=3, \
-                        scoring='f1', \
-                        refit='f1'
-                        )
 
     scoring_metrics = {
         'f1': 'f1',
@@ -84,6 +75,16 @@ if __name__ == "__main__":
         'recall': 'recall',
         'precision': 'precision'
     }
+
+    
+    grid = GridSearchCV( \
+                        pipe, \
+                        parameter_grid, \
+                        cv=cross_validator_interno, \
+                        verbose=3, \
+                        scoring=scoring_metrics, \
+                        refit='f1'
+                        )
     
     experiment = GridExperiment(grid)
 
