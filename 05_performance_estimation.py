@@ -5,6 +5,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import GridSearchCV, StratifiedKFold, cross_validate
 from sklearn.feature_selection import SelectKBest, f_classif
 import pandas as pd
+import numpy as np
 import os
 
 # == GRID EXPERIMENT WRAPPER
@@ -88,6 +89,12 @@ if __name__ == "__main__":
 
     #experiment.grid_run(X, y)
 
-    experiment.cv_run(X, y, cross_validator_externo, scoring_metrics)
+    data = experiment.cv_run(X, y, cross_validator_externo, scoring_metrics)
+
+    for metric in ['test_f1', 'test_accuracy', 'test_recall', 'test_precision']:
+        scores = data[metric]
+        mean_score = np.mean(scores)
+        std_dev = np.std(scores)
+        print(f"{metric.replace('test_', '').capitalize()}: {mean_score:.4f} +/- {std_dev:.4f}")
     
     experiment.produceGraphics()
