@@ -49,9 +49,9 @@ for idx, metric in enumerate(metrics):
                    color=colors['Naive Bayes'], alpha=0.8, edgecolor='black', linewidth=1.2)
     bars2 = ax.bar(x + bar_width/2, rf_values, bar_width, label='Random Forest', 
                    color=colors['Random Forest'], alpha=0.8, edgecolor='black', linewidth=1.2)
-    """bars3 = ax.bar(x, svm_values, bar_width, label='SVM', 
-                   color=colors['SVM'], alpha=0.8, edgecolor='black', linewidth=1.2)"""
-    for bars in [bars1, bars2]: #, bars3]:
+    bars3 = ax.bar(x, svm_values, bar_width, label='SVM', 
+                   color=colors['SVM'], alpha=0.8, edgecolor='black', linewidth=1.2)
+    for bars in [bars1, bars2, bars3]:
         for bar in bars:
             height = bar.get_height()
             ax.text(bar.get_x() + bar.get_width()/2., height,
