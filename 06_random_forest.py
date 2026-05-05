@@ -7,11 +7,9 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import sys
 import os
 
-# Adicionar path para importar a classe PreProcessing
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from importlib import import_module
 
-# Importar a classe PreProcessing
 import importlib.util
 spec = importlib.util.spec_from_file_location("preprocessing", "02_pre_processing.py")
 preprocessing_module = importlib.util.module_from_spec(spec)
