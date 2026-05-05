@@ -17,7 +17,7 @@
           buildInputs = with pkgs; [
             git
             uv
-            python315
+            python312
             ninja
             zlib
             libjpeg
@@ -25,6 +25,12 @@
           ];
 
           shellHook = ''
+                    export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath (with pkgs; [
+                   zlib
+                   libjpeg
+                   freetype
+                   stdenv.cc.cc.lib
+                 ])}:$LD_LIBRARY_PATH
                     echo "Shell para SIN5007 inicializada..."
                     '';
         };
