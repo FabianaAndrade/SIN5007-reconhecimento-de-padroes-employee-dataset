@@ -10,10 +10,18 @@
     in
       {
         devShells.${system}.default = pkgs.mkShell {
+
+          nativeBuildInputs = with pkgs; [
+            pkg-config
+          ];
           buildInputs = with pkgs; [
             git
             uv
             python315
+            ninja
+            zlib
+            libjpeg
+            freetype
           ];
 
           shellHook = ''
