@@ -24,7 +24,7 @@ class PCAAnalyzer:
         plt.plot(range(1, len(explained_variance) + 1), explained_variance, marker='o', label='Variância Explicada')
         plt.plot(range(1, len(cumulative_variance) + 1), cumulative_variance, marker='o', label='Variância Acumulada')
         plt.axhline(y=0.9, color='r', linestyle='--', label='90% Variância Explicada')
-        plt.title('Scree Plot - Variância Explicada por Componente')
+        plt.title('Figura 7 - Variância Explicada por Componente')
         plt.xlabel('Número de Componentes')
         plt.ylabel('Variância Explicada')
         plt.xticks(range(1, len(explained_variance) + 1))
@@ -51,11 +51,25 @@ class PCAAnalyzer:
         print("Autovalores:", pca.explained_variance_)
         print("Total variance explained:", sum(pca.explained_variance_ratio_))
         
-        #de-para variáveis originais e componentes principais
+        # Criar um DataFrame para visualizar a composição dos componentes
+        component_df = pd.DataFrame(pca.components_, 
+                                    columns=X.columns, 
+                                    index=[f'Componente Principal {i+1}' for i in range(n_components)])
+        print("\nComposição dos Componentes Principais:")
+        print(component_df.transpose())
+
+        #plot tabela
+        plt.figure(figsize=(12, 6))
         for i in range(n_components):
-            print(f"Componente Principal {i+1}:")
-            for j, feature in enumerate(X.columns):
-                print(f"  {feature}: {pca.components_[i][j]:.4f}")
+            plt.bar(X.columns, pca.components_[i], alpha=0.5, label=f'Componente Principal {i+1}')
+        plt.title('Figura 8 - Composição dos Componentes Principais')
+        plt.xlabel('Características Originais')
+        plt.ylabel('Peso do Componente')
+        plt.xticks(rotation=45)
+        plt.legend(title='Componentes Principais')
+        plt.tight_layout()
+        plt.savefig('figures/pca_component_composition.png')
+        plt.close()
 
         colunas = [f'pca_{i+1}' for i in range(n_components)]
         
@@ -63,8 +77,9 @@ class PCAAnalyzer:
         new_df = pd.DataFrame(data=X_pca, columns=colunas)
         new_df['LeaveOrNot'] = y
         sns.pairplot(new_df, vars=colunas, hue='LeaveOrNot', diag_kind='hist')
-        plt.title('PCA of Employee Data')
+        plt.title('Figura 9 - Pairplot dos Componentes Principais')
         plt.savefig('figures/pca_spairplot.png')
+        plt.close()
         
         #salvando df para treinamento futuro
         new_df.to_csv('data/Employee_pca.csv', index=False)

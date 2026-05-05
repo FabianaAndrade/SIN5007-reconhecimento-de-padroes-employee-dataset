@@ -2,7 +2,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import os
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 import math
 import numpy as np
 
@@ -26,14 +26,10 @@ class PreProcessing:
         return self.df
 
     def scale_numerical(self):
+        """Escalona todas as variáveis numéricas contínuas para [0, 1] usando MinMaxScaler"""
         scaler = MinMaxScaler()
-        self.df[['Age']] = scaler.fit_transform(self.df[['Age']])
-        return self.df
-
-    # Deixando aqui só pra gente testar a diferença entre uma escala minmax e outra normalizada para tempo
-    def normalize_experience(self):
-        scaler = StandardScaler()
-        self.df[['ExperienceInCurrentDomain']] = scaler.fit_transform(self.df[['ExperienceInCurrentDomain']])
+        numerical_cols = ['Age', 'ExperienceInCurrentDomain', 'YearsAtCompany']
+        self.df[numerical_cols] = scaler.fit_transform(self.df[numerical_cols])
         return self.df
 
     def one_hot_encode(self):
@@ -114,15 +110,14 @@ class PreProcessing:
         plt.savefig('figures/distribuicoes_variaveis_pos_proc.png', bbox_inches='tight')
         plt.show()
 
-        
     
     def run_analysis(self):
         self.feature_engineering()
         self.ordinal_encode()
         self.scale_numerical()
         self.one_hot_encode()
-        self.get_df_basic_info()
-        self.plot_distributions()
+        #self.get_df_basic_info()
+        #self.plot_distributions()
         self.df.to_csv("data/Employee_processed.csv", index=False)
        
             
