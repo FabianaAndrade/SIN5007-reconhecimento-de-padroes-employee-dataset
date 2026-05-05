@@ -16,9 +16,9 @@ data = {
     },
 
     'SVM': {
-        'Full Dataset': {'Acurácia': 0, 'Precisão': 0, 'Recall': 0, 'F1-Score': 0},
-        'PCA': {'Acurácia': 0, 'Precisão': 0, 'Recall': 0, 'F1-Score': 0},
-        'SelectedKBest': {'Acurácia': 0, 'Precisão': 0, 'Recall': 0, 'F1-Score': 0}
+        'Full Dataset': {'Acurácia': 77.48, 'Precisão': 80.37, 'Recall': 45.75, 'F1-Score': 58.29},
+        'PCA': {'Acurácia': 81.11, 'Precisão': 83.75, 'Recall': 55.94, 'F1-Score': 67.04},
+        'SelectedKBest': {'Acurácia': 78.19, 'Precisão': 80.91, 'Recall': 47.87, 'F1-Score': 60.06}
     }
 }
 
@@ -35,7 +35,7 @@ colors = {
 fig, axes = plt.subplots(2, 2, figsize=(16, 12))
 axes = axes.flatten()
 
-bar_width = 0.35
+bar_width = 0.25
 x = np.arange(len(datasets))
 
 for idx, metric in enumerate(metrics):
@@ -45,11 +45,11 @@ for idx, metric in enumerate(metrics):
 
     svm_values = [data['SVM'][ds][metric] for ds in datasets]
 
-    bars1 = ax.bar(x - bar_width/2, nb_values, bar_width, label='Naive Bayes', 
+    bars1 = ax.bar(x - bar_width, nb_values, bar_width, label='Naive Bayes', 
                    color=colors['Naive Bayes'], alpha=0.8, edgecolor='black', linewidth=1.2)
-    bars2 = ax.bar(x + bar_width/2, rf_values, bar_width, label='Random Forest', 
+    bars2 = ax.bar(x, rf_values, bar_width, label='Random Forest', 
                    color=colors['Random Forest'], alpha=0.8, edgecolor='black', linewidth=1.2)
-    bars3 = ax.bar(x, svm_values, bar_width, label='SVM', 
+    bars3 = ax.bar(x + bar_width, svm_values, bar_width, label='SVM', 
                    color=colors['SVM'], alpha=0.8, edgecolor='black', linewidth=1.2)
     for bars in [bars1, bars2, bars3]:
         for bar in bars:
