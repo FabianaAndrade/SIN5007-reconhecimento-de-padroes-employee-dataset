@@ -196,7 +196,7 @@ class MLPClassifierExperiment:
         n_features = X_combined.shape[1]
         print(f"\nDataset: {X_combined.shape[0]} amostras, {n_features} features")
         
-        # Lista de kernels para testar
+        # Lista de funções de ativação para testar
         activation_list = [
             'identity',
             'logistic',
@@ -223,9 +223,9 @@ class MLPClassifierExperiment:
         # Testar cada configuração de max_features
         all_results = []
         
-        print(f"\nExecutando Cross-Validation para cada kernel...")
+        print(f"\nExecutando Cross-Validation para cada função de ativação...")
         for current_activation in activation_list:
-            print(f"  Testando kernel={current_activation}...")
+            print(f"  Testando função de ativação={current_activation}...")
             
             model = MLPClassifier(
                 activation=current_activation,
@@ -258,7 +258,7 @@ class MLPClassifierExperiment:
             all_results.append(result_dict)
         
         # Exibir resultados resumidos
-        print(f"\n[Resumo de Todos os kernels Testados]")
+        print(f"\n[Resumo de todas as funções de ativação testadas]")
         results_summary = pd.DataFrame({
             'Função de ativação': [f"{r['activation']}" for r in all_results],
             'Acurácia': [f"{r['accuracy_mean']:.4f}" for r in all_results],
