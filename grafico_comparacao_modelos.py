@@ -19,23 +19,30 @@ data = {
         'Full Dataset': {'Acurácia': 77.48, 'Precisão': 80.37, 'Recall': 45.75, 'F1-Score': 58.29},
         'PCA': {'Acurácia': 81.11, 'Precisão': 83.75, 'Recall': 55.94, 'F1-Score': 67.04},
         'SelectedKBest': {'Acurácia': 78.19, 'Precisão': 80.91, 'Recall': 47.87, 'F1-Score': 60.06}
+    },
+
+    'MLP': {
+        'Full Dataset': {'Acurácia': 84.55, 'Precisão': 86.97, 'Recall': 64.81, 'F1-Score': 74.25},
+        'PCA': {'Acurácia': 83.86, 'Precisão': 87.11, 'Recall': 62.31, 'F1-Score': 72.63},
+        'SelectedKBest': {'Acurácia': 84.12, 'Precisão': 87.72, 'Recall': 62.75, 'F1-Score': 73.05}
     }
 }
 
 # Datasets
 datasets = ['Full Dataset', 'PCA', 'SelectedKBest']
 metrics = ['Acurácia', 'Precisão', 'Recall', 'F1-Score']
-models = ['Naive Bayes', 'Random Forest', 'SVM']
+models = ['Naive Bayes', 'Random Forest', 'SVM', 'MLP']
 
 colors = {
     'Naive Bayes': '#1f77b4',      
     'Random Forest': '#ff7f0e',
-    'SVM': '#2ca02c'
+    'SVM': '#2ca02c',
+    'MLP': '#f5d217'
 }
 fig, axes = plt.subplots(2, 2, figsize=(16, 12))
 axes = axes.flatten()
 
-bar_width = 0.25
+bar_width = 0.20
 x = np.arange(len(datasets))
 
 for idx, metric in enumerate(metrics):
@@ -45,13 +52,17 @@ for idx, metric in enumerate(metrics):
 
     svm_values = [data['SVM'][ds][metric] for ds in datasets]
 
+    mlp_values = [data['MLP'][ds][metric] for ds in datasets]
+
     bars1 = ax.bar(x - bar_width, nb_values, bar_width, label='Naive Bayes', 
                    color=colors['Naive Bayes'], alpha=0.8, edgecolor='black', linewidth=1.2)
     bars2 = ax.bar(x, rf_values, bar_width, label='Random Forest', 
                    color=colors['Random Forest'], alpha=0.8, edgecolor='black', linewidth=1.2)
     bars3 = ax.bar(x + bar_width, svm_values, bar_width, label='SVM', 
                    color=colors['SVM'], alpha=0.8, edgecolor='black', linewidth=1.2)
-    for bars in [bars1, bars2, bars3]:
+    bars4 = ax.bar(x + bar_width * 2, mlp_values, bar_width, label='MLP',
+                   color=colors['MLP'], alpha=0.8, edgecolor='black', linewidth=1.2)
+    for bars in [bars1, bars2, bars3, bars4]:
         for bar in bars:
             height = bar.get_height()
             ax.text(bar.get_x() + bar.get_width()/2., height,
